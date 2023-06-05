@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class Translate2D : MonoBehaviour
 {
-    public Vector2 velocity;
-    public Vector2 min;
-    public Vector2 max;
+    public Vector3 velocity;
+    public Vector3 min;
+    public Vector3 max;
 
     void Update()
     {
 
         if (transform.position.x < min.x || transform.position.x > max.x)
-            velocity = new Vector2(-velocity.x, velocity.y);
+            velocity = new Vector3(-velocity.x, velocity.y, velocity.z);
         if (transform.position.y < min.y || transform.position.y > max.y)
-            velocity = new Vector2(velocity.x, -velocity.y);
+            velocity = new Vector3(velocity.x, -velocity.y, velocity.z);
+        if (transform.position.z < min.z || transform.position.z > max.z)
+            velocity = new Vector3(velocity.x, velocity.y, -velocity.z);
 
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, min.x, max.x),
-                 Mathf.Clamp(transform.position.y, min.y, max.y), transform.position.z);
+        transform.position = new Vector3(
+                Mathf.Clamp(transform.position.x, min.x, max.x),
+                Mathf.Clamp(transform.position.y, min.y, max.y),
+                Mathf.Clamp(transform.position.z, min.z, max.z));
 
-        transform.position += new Vector3(velocity.x, velocity.y, 0) * Time.deltaTime;
+        transform.position += new Vector3(velocity.x, velocity.y, velocity.z) * Time.deltaTime;
 
     }
 }
